@@ -1,0 +1,25 @@
+Options +FollowSymlinks
+RewriteEngine On
+
+# deal with admin first
+RewriteCond %{REQUEST_URI} ^/vaststore/(backend) 
+RewriteRule ^backend/assets/(.*)$ backend/web/assets/$1 [L]
+RewriteRule ^backend/css/(.*)$ backend/web/css/$1 [L]
+RewriteRule ^backend/js/(.*)$ backend/web/js/$1 [L]
+RewriteRule ^backend/images/(.*)$ backend/web/images/$1 [L]
+
+RewriteCond %{REQUEST_URI} !^/vaststore/backend/web/(assets|css|js|images)/ 
+RewriteCond %{REQUEST_URI} ^/vaststore/(backend) 
+RewriteRule ^.*$ backend/web/index.php [L]
+
+RewriteCond %{REQUEST_URI} ^/vaststore/(assets|css|js) 
+RewriteRule ^assets/(.*)$ frontend/web/assets/$1 [L]
+RewriteRule ^css/(.*)$ frontend/web/css/$1 [L]
+RewriteRule ^js/(.*)$ frontend/web/js/$1 [L] 
+RewriteRule ^images/(.*)$ images/$1 [L]
+
+RewriteCond %{REQUEST_URI} !^/vaststore/(frontend|backend)/web/(assets|css)/
+RewriteCond %{REQUEST_URI} !index.php
+RewriteCond %{REQUEST_FILENAME} !-f [OR]
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ frontend/web/index.php
